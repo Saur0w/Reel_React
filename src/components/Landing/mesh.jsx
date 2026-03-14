@@ -1,13 +1,9 @@
-"use client";
-
-import  { useTexture } from "@react-three/drei";
+import { useTexture } from "@react-three/drei";
 import * as THREE from "three";
 import { vertexShader, fragmentShader } from "../../lib/Shaders/index.js";
-import {Suspense, useMemo, useRef} from "react";
+import { Suspense, useMemo, useRef } from "react";
 import { useFrame } from "@react-three/fiber";
-import { useScroll } from "../../hooks/useScroll.jsx";
-
-
+import { useScroll } from "../../hooks/useScroll.js";
 
 const images = [
     { src: '/images/kali.png' },
@@ -35,9 +31,9 @@ const PLANE_HEIGHT = 1.5;
 const GAP = 0.05;
 
 function Meshes() {
-    const textures = useTexture(images.map(img => img.src)) as THREE.Texture[];
-    const materialsRef = useRef<(THREE.ShaderMaterial | null)[]>([]);
-    const groupRef      = useRef<THREE.Group>(null!);
+    const textures = useTexture(images.map(img => img.src));
+    const materialsRef = useRef([]);
+    const groupRef = useRef(null);
 
     const { scrollX, targetX, velocity } = useScroll();
 
@@ -50,9 +46,9 @@ function Meshes() {
 
     useFrame(() => {
         const diff = targetX.current - scrollX.current;
-        // eslint-disable-next-line react-hooks/immutability
+        // eslint-disable-next-line react-hooks/exhaustive-deps
         scrollX.current += diff * 0.1;
-        // eslint-disable-next-line react-hooks/immutability
+        // eslint-disable-next-line react-hooks/exhaustive-deps
         velocity.current = diff;
 
         if (groupRef.current) {
@@ -87,7 +83,7 @@ function Meshes() {
                 </mesh>
             ))}
         </group>
-    )
+    );
 }
 
 export default function Mesh() {
